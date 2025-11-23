@@ -1,0 +1,44 @@
+def display_menu():
+    print("\nPersonal Knowledge Management")
+    print("1. Add Note")
+    print("2. View Notes")
+    print("3. Delete Note")
+    print("4. Exit")
+
+def add_note():
+    note = input("Enter your note: ")
+    with open("notes.txt", "a") as f:
+        f.write(note + "\n")
+    print("Note added.")
+
+def view_notes():
+    try:
+        with open("notes.txt", "r") as f:
+            notes = f.readlines()
+        for i, note in enumerate(notes, 1):
+            print(f"{i}. {note.strip()}")
+    except FileNotFoundError:
+        print("No notes found.")
+
+def delete_note():
+    view_notes()
+    try:
+        with open("notes.txt", "r") as f:
+            notes = f.readlines()
+        n = int(input("Note number to delete: "))
+        if 1 <= n <= len(notes):
+            del notes[n-1]
+            with open("notes.txt", "w") as f:
+                f.writelines(notes)
+            print("Note deleted.")
+    except:
+        print("Invalid input.")
+
+while True:
+    display_menu()
+    c = input("Choose: ")
+    if c == "1": add_note()
+    elif c == "2": view_notes()
+    elif c == "3": delete_note()
+    elif c == "4": break
+    else: print("Invalid choice.")
